@@ -5,7 +5,7 @@ namespace fish {
 	// to-do make singleton 
 	class config {
 	public:
-		static int _log_max_buf = 1024; 
+
 	};
 }
 

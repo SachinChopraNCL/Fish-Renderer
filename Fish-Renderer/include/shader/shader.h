@@ -24,11 +24,13 @@ namespace fish {
 		template <typename t> 
 		void set_uniform(const std::string& uniform_name, t value); 
 
-		bool _is_shader_valid = false;
+		bool _is_shader_valid = true;
 	
 	private:
 		void compile_shader();
-		void check_compile(); 
+		
+		void check_compile(unsigned int shader); 
+		void check_linking(); 
 
 		std::string _cached_vertex_string = "";
 		std::string _cached_fragment_string = ""; 
