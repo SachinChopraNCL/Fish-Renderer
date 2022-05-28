@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/vec4.hpp>
 #include <shader/shader.h>
+#include <buffer/vertex_array.h>
 
 using namespace fish; 
 
@@ -29,25 +30,29 @@ int main()
 	
 	shader s;
 
+	vertex_attribute_layout layout = vertex_attribute_layout(0, 3, 0, GL_FLOAT, false);
+	vertex_array va = vertex_array({ layout });
+
+
+
 	float vertices[] = {
 	-0.5f, -0.5f, 0.0f,
 	 0.5f, -0.5f, 0.0f,
 	 0.0f,  0.5f, 0.0f
 	};
 
-	unsigned int VAO; 
-	glGenVertexArrays(1, &VAO);
-
-	unsigned int VBO;
+	GLuint VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	
+	GLuint buffers[1]; 
+	GLintptr offsets[1];
+	GLsizei  strides[1];
+	buffers[0] = VBO;
+	offsets[0] = 0;
+	strides[0] = 3 * sizeof(float);
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -59,7 +64,8 @@ int main()
 		glClearColor(0, 0, 0, 0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		s.use();
-		glBindVertexArray(VAO);
+		va.bind();
+		glBindVertexBuffers(0, 1, buffers, offsets, strides);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
