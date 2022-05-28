@@ -10,17 +10,25 @@ namespace fish {
 	class shader {
 	public:
 		shader(); 
-		shader(std::string vertex_shader_file, std::string fragment_shader_file);
+		shader(const std::string& vertex_shader_file, const std::string& fragment_shader_file);
 		~shader();
 
-		void set_vertex_shader(std::string vertex_shader_file);
-		void set_fragment_shader(std::string);
+		void set_vertex_shader(const std::string& vertex_shader_file);
+		void set_fragment_shader(const std::string& fragment_shader_file);
+
+		// todo - maybe remove?
 		void recompile_shader(); 
 
 		void use(); 
+		
+		template <typename t> 
+		void set_uniform(const std::string& uniform_name, t value); 
+
+		bool _is_shader_valid = false;
 	
 	private:
 		void compile_shader();
+		void check_compile(); 
 
 		std::string _cached_vertex_string = "";
 		std::string _cached_fragment_string = ""; 

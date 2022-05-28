@@ -3,10 +3,10 @@
 
 using namespace fish; 
 
-const std::string shader_loader::_local_shader_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\shaders\\";
+const std::string shader_loader::_local_shader_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\res\\shaders\\";
 std::map<std::string, std::string> shader_loader::_shader_map = {};
 
-std::string shader_loader::load_shader_from_path(const std::string& shader_name) {
+const std::string shader_loader::load_shader_from_path(const std::string& shader_name) {
 	if (_shader_map.find(shader_name) == _shader_map.end()) {
 		std::ifstream shader_file;
 		std::stringstream shader_stream;
@@ -22,6 +22,7 @@ std::string shader_loader::load_shader_from_path(const std::string& shader_name)
 		}
 		_shader_map.insert({ shader_name, shader_stream.str() });
 	}
+	
 
 	std::string shader_code = _shader_map[shader_name];
 	
