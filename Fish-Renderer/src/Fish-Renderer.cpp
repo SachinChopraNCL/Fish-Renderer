@@ -5,7 +5,7 @@
 #include <glm/vec4.hpp>
 #include <shader/shader.h>
 #include <buffer/vertex_array.h>
-#include <buffer/vertex_buffer.h>
+#include <buffer/buffer.h>
 
 using namespace fish; 
 
@@ -46,13 +46,13 @@ int main()
 	 0.5f, -0.5f, 0.0f,
 	 0.0f,  0.5f, 0.0f };
 
-	vertex_buffer<float> vbo = vertex_buffer(vert, GL_STATIC_DRAW);
+	buffer<float> vbo = buffer(GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
 
 
 	GLuint buffers[1]; 
 	GLintptr offsets[1];
 	GLsizei  strides[1];
-	buffers[0] = vbo._id;
+	buffers[0] = vbo.get_id();
 	offsets[0] = 0;
 	strides[0] = 3 * sizeof(float);
 
