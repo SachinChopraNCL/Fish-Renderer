@@ -24,7 +24,7 @@ namespace fish {
 		void add_layout(vertex_attribute_layout data_layout);
 		bool location_used (vertex_attribute_layout& data_layout); 
 	private:
-		unsigned int _id;
+		GLuint _id;
 		std::vector<vertex_attribute_layout> _data_layouts; 
 		std::vector<int> _locations;  
 	};

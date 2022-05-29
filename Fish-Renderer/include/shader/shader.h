@@ -41,7 +41,7 @@ namespace fish {
 		const std::string _default_vertex_shader = "default_vertex_shader.glsl";
 		const std::string _default_fragment_shader = "default_fragment_shader.glsl";
 
-		unsigned int _id; 
+		GLuint _id; 
 	};
 }
 
