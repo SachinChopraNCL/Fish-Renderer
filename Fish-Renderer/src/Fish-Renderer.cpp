@@ -6,6 +6,8 @@
 #include <shader/shader.h>
 #include <buffer/vertex_array.h>
 #include <buffer/buffer.h>
+#include <renderer/render_object.h> 
+
 
 using namespace fish; 
 
@@ -28,6 +30,16 @@ int main()
 		std::cout << "Failed to initialise GLAD" << std::endl; 
 		return -1;
 	}
+
+	float vertices[] = {
+-0.5f, -0.5f, 0.0f,
+ 0.5f, -0.5f, 0.0f,
+ 0.0f,  0.5f, 0.0f
+	};
+
+	std::vector<float> vert = { -0.5f, -0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f };
 	
 	shader s;
 
@@ -35,16 +47,15 @@ int main()
 	vertex_array va; 
 	va.add_layout(data_type::POSITION, layout);
 
+	std::shared_ptr va1 = std::make_shared<vertex_array>();
 
-	float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
-	};
+	std::weak_ptr va2 = va1; 
+	va1->add_layout(data_type::POSITION, layout);
 
-	std::vector<float> vert = { -0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f };
+
+	render_object obj(va2);
+	obj.add_vertex_buffer(data_type::POSITION, GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
+
 
 	buffer<float> vbo = buffer(GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
 
@@ -68,8 +79,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		s.use();
 		va.bind();
-		glBindVertexBuffers(0, 1, buffers, offsets, strides);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		obj.draw();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

@@ -28,12 +28,15 @@ namespace fish {
 		void bind();
 		void unbind();
 		void add_layout(data_type layout_type, vertex_attribute_layout data_layout);
-		void delete_layout(data_type layout_type); 
 		bool location_used (vertex_attribute_layout& data_layout); 
+		const std::vector<data_type>& get_data_layouts(){
+			return _data_layouts; 
+		}
+
 	private:
 		GLuint _id;
 		unsigned int _buffer_index = 0; 
-		std::map<data_type, vertex_attribute_layout> _data_layouts; 
+		std::vector<data_type> _data_layouts; 
 		std::vector<int> _locations;  
 	};
 }

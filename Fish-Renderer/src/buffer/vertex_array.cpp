@@ -21,22 +21,18 @@ void vertex_array::add_layout(data_type layout_type, vertex_attribute_layout dat
 		return; 
 	}
 	
-	if (!_data_layouts.insert(std::make_pair(layout_type, data_layout)).second) {
+	if (std::find(_data_layouts.begin(), _data_layouts.end(), layout_type) != _data_layouts.end()) {
 		std::cout << "Layout type is already in use!";
 		return;
 	}
+
+	_data_layouts.push_back(layout_type);
 
 	bind();
 	glEnableVertexAttribArray(data_layout._location);
 	glVertexAttribFormat(data_layout._location, data_layout._size, data_layout._type, data_layout._normalised, data_layout._offset);
 	glVertexAttribBinding(data_layout._location, _buffer_index++);
 	unbind();
-}
-
-void vertex_array::delete_layout(data_type layout_type) {
-	std::map<data_type, vertex_attribute_layout>::iterator it; 
-	it = _data_layouts.find(layout_type);
-	_data_layouts.erase(it);
 }
 
 bool vertex_array::location_used(vertex_attribute_layout& data_layout) {
