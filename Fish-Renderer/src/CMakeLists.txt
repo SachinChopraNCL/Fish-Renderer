@@ -14,6 +14,7 @@ set(glm_DIR "C:/Program Files (x86)/glm/lib/cmake/glm")
 
 add_subdirectory(shader)
 add_subdirectory(buffer)
+add_subdirectory(renderer)
 
 
 find_package(OpenGL REQUIRED)

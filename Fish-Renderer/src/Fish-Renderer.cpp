@@ -32,8 +32,8 @@ int main()
 	shader s;
 
 	vertex_attribute_layout layout = vertex_attribute_layout(0, 3, 0, GL_FLOAT, false);
-	vertex_array va = vertex_array({ layout });
-
+	vertex_array va; 
+	va.add_layout(data_type::POSITION, layout);
 
 
 	float vertices[] = {

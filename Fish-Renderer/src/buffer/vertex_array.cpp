@@ -3,22 +3,9 @@
 #include <iostream>
 using namespace fish; 
 
-vertex_array::vertex_array(std::vector<vertex_attribute_layout> data_layouts):_data_layouts(data_layouts) {
+vertex_array::vertex_array() { 
 	glGenVertexArrays(1, &_id);
-	set_layouts();
-}
-
-void vertex_array::set_layouts() {
-	bind();
-	for (vertex_attribute_layout& data_layout : _data_layouts) {
-		if (location_used(data_layout)) {
-			continue; 
-		}
-		glEnableVertexAttribArray(data_layout._location);
-		glVertexAttribFormat(data_layout._location, data_layout._size, data_layout._type, data_layout._normalised, data_layout._offset);
-		glVertexAttribBinding(data_layout._location, 0);
-	}
-	unbind();
+	_data_layouts = {}; 
 }
 
 void vertex_array::bind() {
@@ -29,11 +16,27 @@ void vertex_array::unbind() {
 	glBindVertexArray(0);
 }
 
-void vertex_array::add_layout(vertex_attribute_layout data_layout) {
+void vertex_array::add_layout(data_type layout_type, vertex_attribute_layout data_layout) {
 	if (location_used(data_layout)) {
 		return; 
 	}
-	_data_layouts.push_back(data_layout);
+	
+	if (!_data_layouts.insert(std::make_pair(layout_type, data_layout)).second) {
+		std::cout << "Layout type is already in use!";
+		return;
+	}
+
+	bind();
+	glEnableVertexAttribArray(data_layout._location);
+	glVertexAttribFormat(data_layout._location, data_layout._size, data_layout._type, data_layout._normalised, data_layout._offset);
+	glVertexAttribBinding(data_layout._location, _buffer_index++);
+	unbind();
+}
+
+void vertex_array::delete_layout(data_type layout_type) {
+	std::map<data_type, vertex_attribute_layout>::iterator it; 
+	it = _data_layouts.find(layout_type);
+	_data_layouts.erase(it);
 }
 
 bool vertex_array::location_used(vertex_attribute_layout& data_layout) {

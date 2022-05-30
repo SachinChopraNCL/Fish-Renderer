@@ -3,8 +3,15 @@
 
 #include <glad/glad.h>
 #include <vector>
+#include <map>
 
 namespace fish {
+
+	enum data_type {
+		POSITION,
+		COLOUR,
+		NORMAL
+	};
 
 	struct vertex_attribute_layout {
 		vertex_attribute_layout(unsigned int location, unsigned int size,  unsigned int offset, GLenum type = GL_FLOAT, bool normalised = false) : _location(location), _offset(offset), _size(size), _type(type), _normalised(normalised) {}
@@ -17,15 +24,16 @@ namespace fish {
 	
 	class vertex_array {
 	public:
-		vertex_array(std::vector<vertex_attribute_layout> data_layouts);
-		void set_layouts(); 
+		vertex_array();
 		void bind();
 		void unbind();
-		void add_layout(vertex_attribute_layout data_layout);
+		void add_layout(data_type layout_type, vertex_attribute_layout data_layout);
+		void delete_layout(data_type layout_type); 
 		bool location_used (vertex_attribute_layout& data_layout); 
 	private:
 		GLuint _id;
-		std::vector<vertex_attribute_layout> _data_layouts; 
+		unsigned int _buffer_index = 0; 
+		std::map<data_type, vertex_attribute_layout> _data_layouts; 
 		std::vector<int> _locations;  
 	};
 }
