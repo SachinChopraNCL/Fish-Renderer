@@ -7,19 +7,6 @@ render_object::render_object(std::weak_ptr<vertex_array>& vertex_array, const st
 		return;
 	}
 	_bound_vertex_array = vertex_array;
-	make_buffer_layout(); 
-}
-
-
-void render_object::make_buffer_layout() {
-	if (_bound_vertex_array.expired()) {
-		return;
-	}
-	std::shared_ptr<vertex_array> raw_vertex_array = _bound_vertex_array.lock();
-	std::vector<data_type> vertex_array_layouts = raw_vertex_array->get_data_layouts();
-	for (data_type type : vertex_array_layouts) {
-		_data_layouts.push_back(type); 
-	}
 }
 
 void render_object::set_vertex_array(std::weak_ptr<vertex_array>& vertex_array) {
@@ -27,7 +14,6 @@ void render_object::set_vertex_array(std::weak_ptr<vertex_array>& vertex_array) 
 		return; 
 	}
 	_bound_vertex_array = vertex_array;
-	make_buffer_layout(); 
 }
 
 void render_object::add_vertex_buffer(data_type type, GLenum binding_point, std::vector<float>& buffer_data, GLenum data_intent) {
@@ -35,12 +21,16 @@ void render_object::add_vertex_buffer(data_type type, GLenum binding_point, std:
 		std::cout << "Need a Vertex_Array bound before buffering data!" << std::endl; 
 		return; 
 	}
-	if (type != _data_layouts[_buffer_index]) {
+
+	std::shared_ptr<vertex_array> raw_vertex_array = _bound_vertex_array.lock();
+	std::vector<data_type> vertex_array_layouts = raw_vertex_array->get_data_layouts();
+
+	if (type != vertex_array_layouts[_buffer_index]) {
 		std::cout << "Mismatch of buffered data type and the vertex array layout!" << std::endl;
 	}
 
 	_buffers.push_back(buffer<float> { binding_point, buffer_data, data_intent});
-	_buffer_index; 
+	_buffer_index++; 
 }
 
 
