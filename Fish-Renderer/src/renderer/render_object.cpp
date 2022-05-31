@@ -31,6 +31,10 @@ void render_object::add_vertex_buffer(data_type type, GLintptr offset, GLenum bi
 		std::cout << "Mismatch of buffered data type and the vertex array layout!" << std::endl;
 	}
 
+	if (type == data_type::POSITION) {
+		_number_of_verticies = buffer_data.size();
+	}
+
 	_buffers.push_back(buffer<float>::create_buffer(type, binding_point, buffer_data, data_intent));
 	_offsets.push_back(offset);
 	_strides.push_back(data_helpers::get_stride_from_type(type));
@@ -42,6 +46,6 @@ void render_object::draw() {
 		return;
 	}
 	glBindVertexBuffers(0, 2, &_buffers[0], &_offsets[0], &_strides[0]);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawArrays(GL_TRIANGLES, 0, _number_of_verticies);
 
 }

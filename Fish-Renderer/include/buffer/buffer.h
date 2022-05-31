@@ -13,7 +13,7 @@ namespace fish {
 			GLuint _id;
 			glGenBuffers(1, &_id);
 			glBindBuffer(binding_point, _id);
-			glBufferData(binding_point, sizeof(buffer_data) * sizeof(t), &buffer_data.front(), data_intent);
+			glBufferData(binding_point, buffer_data.size() * sizeof(t), &buffer_data.front(), data_intent);
 			glBindBuffer(binding_point, 0);
 			return _id; 
 		}

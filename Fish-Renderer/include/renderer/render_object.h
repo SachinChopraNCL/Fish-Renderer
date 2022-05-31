@@ -21,6 +21,7 @@ namespace fish {
 		std::vector<GLintptr> _offsets;
 		std::vector<GLsizei> _strides; 
 		unsigned int _buffer_index = 0; 
+		unsigned int _number_of_verticies = 0; 
 		std::string _model_name; 
 		static const std::string _local_model_path; 
 	};
