@@ -54,18 +54,7 @@ int main()
 
 
 	render_object obj(va2);
-	obj.add_vertex_buffer(data_type::POSITION, GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
-
-
-	buffer<float> vbo = buffer(GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
-
-
-	GLuint buffers[1]; 
-	GLintptr offsets[1];
-	GLsizei  strides[1];
-	buffers[0] = vbo.get_id();
-	offsets[0] = 0;
-	strides[0] = 3 * sizeof(float);
+	obj.add_vertex_buffer(data_type::POSITION, 0, GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
 
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

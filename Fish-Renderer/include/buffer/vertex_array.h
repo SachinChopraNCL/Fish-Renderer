@@ -2,17 +2,11 @@
 #define	VERTEX_ARRAY_H 
 
 #include <glad/glad.h>
+#include <data_type.h>
 #include <vector>
 #include <map>
 
 namespace fish {
-
-	enum data_type {
-		POSITION,
-		COLOUR,
-		NORMAL
-	};
-
 	struct vertex_attribute_layout {
 		vertex_attribute_layout(unsigned int location, unsigned int size,  unsigned int offset, GLenum type = GL_FLOAT, bool normalised = false) : _location(location), _offset(offset), _size(size), _type(type), _normalised(normalised) {}
 		unsigned int _location; 
