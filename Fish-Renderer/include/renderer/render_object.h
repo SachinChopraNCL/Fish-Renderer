@@ -17,8 +17,7 @@ namespace fish {
 		void draw(); 
 	private: 
 		std::weak_ptr<vertex_array> _bound_vertex_array; 
-		std::vector<buffer<float>> _buffers;
-		std::vector<GLuint> _buffer_ids;
+		std::vector<GLuint> _buffers;
 		std::vector<GLintptr> _offsets;
 		std::vector<GLsizei> _strides; 
 		unsigned int _buffer_index = 0; 

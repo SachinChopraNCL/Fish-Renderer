@@ -3,9 +3,9 @@
 #include <iostream>
 namespace fish {
 	enum data_type {
-		POSITION,
-		COLOUR,
-		NORMAL
+		POSITION = 0,
+		COLOUR = 1,
+		NORMAL = 2
 	};
 	
 	class data_helpers {

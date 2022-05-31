@@ -27,16 +27,13 @@ void render_object::add_vertex_buffer(data_type type, GLintptr offset, GLenum bi
 	std::shared_ptr<vertex_array> raw_vertex_array = _bound_vertex_array.lock();
 	std::vector<data_type> vertex_array_layouts = raw_vertex_array->get_data_layouts();
 
-	if (type != vertex_array_layouts[_buffer_index]) {
+	if (type != vertex_array_layouts[_buffer_index++]) {
 		std::cout << "Mismatch of buffered data type and the vertex array layout!" << std::endl;
 	}
 
-	buffer<float> new_buffer = buffer<float>(type, binding_point, buffer_data, data_intent); 
-	_buffers.push_back(new_buffer);
-	_buffer_ids.push_back(new_buffer.get_id());
+	_buffers.push_back(buffer<float>::create_buffer(type, binding_point, buffer_data, data_intent));
 	_offsets.push_back(offset);
 	_strides.push_back(data_helpers::get_stride_from_type(type));
-	_buffer_index++; 
 }
 
 
@@ -44,7 +41,7 @@ void render_object::draw() {
 	if (_bound_vertex_array.expired()) {
 		return;
 	}
-	glBindVertexBuffers(0, 1, &_buffer_ids[0], &_offsets[0], &_strides[0]);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexBuffers(0, 2, &_buffers[0], &_offsets[0], &_strides[0]);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 }
