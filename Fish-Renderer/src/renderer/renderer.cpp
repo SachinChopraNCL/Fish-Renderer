@@ -1,5 +1,7 @@
 #include <renderer.h>
 
+#include "render_object.cpp"
+
 using namespace fish; 
 
 const std::string _local_config_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\res\\config\\";
@@ -59,10 +61,11 @@ void renderer::load_vertex_arrays() {
 	_vertex_arrays.push_back(default_vertex_array);
 }
 
-void renderer::add_object(std::vector<float>& verticies, std::vector<float>& colours) {
+void renderer::add_object(std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies) {
 	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0]);
-	new_object->add_vertex_buffer(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
-	new_object->add_vertex_buffer(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
+	new_object->add_vertex_buffer<float>(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
+	new_object->add_vertex_buffer<float>(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
+	new_object->add_vertex_buffer<int>(data_type::INDEX, 0, GL_ELEMENT_ARRAY_BUFFER, indicies, GL_STATIC_DRAW);
 	_render_objects.push_back(new_object);
 }
 

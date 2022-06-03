@@ -17,11 +17,16 @@ void render_object::set_vertex_array(std::weak_ptr<vertex_array>& vertex_array) 
 
 	//todo remap vertex buffers if possible
 }
-
-void render_object::add_vertex_buffer(data_type type, GLintptr offset, GLenum binding_point, std::vector<float>& buffer_data, GLenum data_intent) {
+template <typename t>
+void render_object::add_vertex_buffer(data_type type, GLintptr offset, GLenum binding_point, std::vector<t>& buffer_data, GLenum data_intent) {
 	if (_bound_vertex_array.expired()) {
 		std::cout << "Need a Vertex_Array bound before buffering data!" << std::endl; 
 		return; 
+	}
+
+	if (type == data_type::INDEX) {
+		_index_buffer = buffer<t>::create_buffer(type, binding_point, buffer_data, data_intent);
+		return;
 	}
 
 	std::shared_ptr<vertex_array> raw_vertex_array = _bound_vertex_array.lock();
@@ -35,17 +40,16 @@ void render_object::add_vertex_buffer(data_type type, GLintptr offset, GLenum bi
 		_number_of_verticies = buffer_data.size();
 	}
 
-	_buffers.push_back(buffer<float>::create_buffer(type, binding_point, buffer_data, data_intent));
+	_buffers.push_back(buffer<t>::create_buffer(type, binding_point, buffer_data, data_intent));
 	_offsets.push_back(offset);
 	_strides.push_back(data_helpers::get_stride_from_type(type));
 }
-
 
 void render_object::draw() {
 	if (_bound_vertex_array.expired()) {
 		return;
 	}
 	glBindVertexBuffers(0, 2, &_buffers[0], &_offsets[0], &_strides[0]);
-	glDrawArrays(GL_TRIANGLES, 0, _number_of_verticies);
-
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

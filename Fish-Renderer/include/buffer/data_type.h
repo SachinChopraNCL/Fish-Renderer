@@ -5,7 +5,8 @@ namespace fish {
 	enum data_type {
 		POSITION = 0,
 		COLOUR = 1,
-		NORMAL = 2
+		NORMAL = 2,
+		INDEX = 3
 	};
 	
 	class data_helpers {
