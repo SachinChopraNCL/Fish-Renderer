@@ -11,7 +11,7 @@
 namespace fish {
 	class render_object {
 	public: 
-		render_object(std::weak_ptr<vertex_array>& vertex_array, const std::string& model_name = "");
+		render_object(std::shared_ptr<vertex_array>& vertex_array, const std::string& model_name = "");
 		void set_vertex_array(std::weak_ptr<vertex_array>& vertex_array);
 		void add_vertex_buffer(data_type type, GLintptr offset, GLenum binding_point, std::vector<float>& buffer_data, GLenum data_intent);
 		void draw(); 

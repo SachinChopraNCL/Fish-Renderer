@@ -4,7 +4,7 @@ using namespace fish;
 
 const std::string _local_config_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\res\\config\\";
 
-void renderer::load_config(std::string config_file_name) {
+void renderer::load_config(const std::string& config_file_name) {
 	std::ifstream config_file; 
 	std::string line;
 	try {
@@ -39,9 +39,42 @@ void renderer::initialise() {
 		return;
 	}
 	glfwMakeContextCurrent(_window.get());
-
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		std::cout << "Failed to initialise GLAD" << std::endl;
+		return;
+	}
+	glViewport(0, 0, _width, _height);
+	_shaders.push_back(shader{});
+	load_vertex_arrays();
 }
 
 void renderer::load_vertex_arrays() {
+	vertex_attribute_layout vertex_layout = vertex_attribute_layout(0, 3, 0, GL_FLOAT, false);
+	vertex_attribute_layout colour_layout = vertex_attribute_layout(1, 4, 0, GL_FLOAT, false);
 
+	std::shared_ptr<vertex_array> default_vertex_array = std::make_shared<vertex_array>();
+	default_vertex_array->add_layout(data_type::POSITION, vertex_layout);
+	default_vertex_array->add_layout(data_type::COLOUR, colour_layout);
+
+	_vertex_arrays.push_back(default_vertex_array);
+}
+
+void renderer::add_object(std::vector<float>& verticies, std::vector<float>& colours) {
+	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0]);
+	new_object->add_vertex_buffer(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
+	new_object->add_vertex_buffer(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
+	_render_objects.push_back(new_object);
+}
+
+void renderer::draw() {
+	while (!glfwWindowShouldClose(_window.get())) {
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		_shaders[0].use();
+		_vertex_arrays[0].get()->bind();
+		_render_objects[0].get()->draw();
+		_vertex_arrays[0].get()->unbind();
+		glfwSwapBuffers(_window.get());
+		glfwPollEvents();
+	}
 }

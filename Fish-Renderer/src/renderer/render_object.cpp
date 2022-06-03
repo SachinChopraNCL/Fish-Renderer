@@ -2,8 +2,8 @@
 #include <iostream>
 using namespace fish; 
 
-render_object::render_object(std::weak_ptr<vertex_array>& vertex_array, const std::string& model_name) : _bound_vertex_array(vertex_array), _model_name(model_name) {
-	if (vertex_array.expired()) {
+render_object::render_object(std::shared_ptr<vertex_array>& vertex_array, const std::string& model_name) : _bound_vertex_array(vertex_array), _model_name(model_name) {
+	if (!vertex_array.get()) {
 		return;
 	}
 	_bound_vertex_array = vertex_array;
