@@ -12,21 +12,15 @@ endif()
 set(CMAKE_PREFIX_PATH "C:/Program Files (x86)/GLFW")
 set(glm_DIR "C:/Program Files (x86)/glm/lib/cmake/glm")
 
-add_subdirectory(shader)
-add_subdirectory(buffer)
-add_subdirectory(renderer)
-
-
-find_package(OpenGL REQUIRED)
-find_package(glfw3 REQUIRED)
-find_package(glm REQUIRED)
-
 # Add glad 
 add_library(glad ${CMAKE_SOURCE_DIR}/lib/glad/src/glad.c)
 target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/lib/glad/include)
 
+add_subdirectory(shader)
+add_subdirectory(buffer)
+add_subdirectory(renderer)
 
-target_link_libraries(Fish-Renderer PUBLIC shader buffer renderer glfw glad glm::glm)
+target_link_libraries(Fish-Renderer PUBLIC renderer)
 
 include_directories(${CMAKE_SOURCE_DIR}/Fish-Renderer/include)
 

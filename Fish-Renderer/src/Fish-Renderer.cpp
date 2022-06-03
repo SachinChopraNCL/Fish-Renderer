@@ -7,6 +7,7 @@
 #include <buffer/vertex_array.h>
 #include <buffer/buffer.h>
 #include <renderer/render_object.h> 
+#include <renderer/renderer.h>
 
 
 using namespace fish; 
@@ -55,37 +56,39 @@ int main()
 
 	shader s;
 
-	vertex_attribute_layout layout = vertex_attribute_layout(0, 3, 0, GL_FLOAT, false);
-	vertex_attribute_layout layout1 = vertex_attribute_layout(1, 4, 0, GL_FLOAT, false);
+	renderer r = renderer("default_config.txt");
+
+	//vertex_attribute_layout layout = vertex_attribute_layout(0, 3, 0, GL_FLOAT, false);
+	//vertex_attribute_layout layout1 = vertex_attribute_layout(1, 4, 0, GL_FLOAT, false);
 
 
-	std::shared_ptr va1 = std::make_shared<vertex_array>();
+	//std::shared_ptr va1 = std::make_shared<vertex_array>();
 
-	std::weak_ptr va2 = va1; 
+	//std::weak_ptr va2(va1);
 
-	va1->add_layout(data_type::POSITION, layout);
-	va1->add_layout(data_type::COLOUR, layout1); 
+	//va1->add_layout(data_type::POSITION, layout);
+	//va1->add_layout(data_type::COLOUR, layout1); 
 
 
-	render_object obj(va2);
-	obj.add_vertex_buffer(data_type::POSITION, 0, GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
-	obj.add_vertex_buffer(data_type::COLOUR, 0, GL_ARRAY_BUFFER, col, GL_STATIC_DRAW);
+	//render_object obj(va2);
+	//obj.add_vertex_buffer(data_type::POSITION, 0, GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
+	//obj.add_vertex_buffer(data_type::COLOUR, 0, GL_ARRAY_BUFFER, col, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindVertexArray(0);
 
-	glViewport(0, 0, 800, 600);
+	//glViewport(0, 0, 800, 600);
 
-	while (!glfwWindowShouldClose(window)) {
+	//while (!glfwWindowShouldClose(window)) {
 
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		s.use();
-		va1->bind();
-		obj.draw();
-		va1->unbind();
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
+	//	glClearColor(0, 0, 0, 0);
+	//	glClear(GL_COLOR_BUFFER_BIT);
+	//	s.use();
+	//	va1->bind();
+	//	obj.draw();
+	//	va1->unbind();
+	//	glfwSwapBuffers(window);
+	//	glfwPollEvents();
+	//}
 	return 0;
 }
