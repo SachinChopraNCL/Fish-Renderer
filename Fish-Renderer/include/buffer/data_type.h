@@ -6,7 +6,8 @@ namespace fish {
 		POSITION = 0,
 		COLOUR = 1,
 		NORMAL = 2,
-		INDEX = 3
+		INDEX = 3,
+		TEXTURE = 4, 
 	};
 	
 	class data_helpers {

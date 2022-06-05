@@ -43,7 +43,7 @@ namespace fish {
 
 		std::vector<std::shared_ptr<vertex_array>> _vertex_arrays = {};
 		std::vector<std::shared_ptr<render_object>> _render_objects = {};
-		std::vector<shader> _shaders = {}; 
+		std::vector<std::shared_ptr<shader>> _shaders = {};
 
 		std::string _scene_name = "";
 		

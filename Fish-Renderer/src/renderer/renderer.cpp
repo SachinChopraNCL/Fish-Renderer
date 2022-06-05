@@ -46,7 +46,7 @@ void renderer::initialise() {
 		return;
 	}
 	glViewport(0, 0, _width, _height);
-	_shaders.push_back(shader{});
+	_shaders.push_back(std::make_shared<shader>());
 	load_vertex_arrays();
 }
 
@@ -62,7 +62,7 @@ void renderer::load_vertex_arrays() {
 }
 
 void renderer::add_object(std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies) {
-	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0]);
+	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0], _shaders[0]);
 	new_object->add_vertex_buffer<float>(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
 	new_object->add_vertex_buffer<float>(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
 	new_object->add_vertex_buffer<int>(data_type::INDEX, 0, GL_ELEMENT_ARRAY_BUFFER, indicies, GL_STATIC_DRAW);
@@ -73,10 +73,12 @@ void renderer::draw() {
 	while (!glfwWindowShouldClose(_window.get())) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		_shaders[0].use();
-		_vertex_arrays[0].get()->bind();
-		_render_objects[0].get()->draw();
-		_vertex_arrays[0].get()->unbind();
+		for (auto& render_object : _render_objects) {
+			render_object.get()->use_shader();
+			render_object.get()->bind_vertex_array();
+			render_object.get()->draw();
+			render_object.get()->unbind_vertex_array();
+		}
 		glfwSwapBuffers(_window.get());
 		glfwPollEvents();
 	}

@@ -16,6 +16,10 @@ set(glm_DIR "C:/Program Files (x86)/glm/lib/cmake/glm")
 add_library(glad ${CMAKE_SOURCE_DIR}/lib/glad/src/glad.c)
 target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/lib/glad/include)
 
+# Add stb_image 
+add_library(stb ${CMAKE_SOURCE_DIR}/lib/stb_image/src/stb_image.cpp)
+target_include_directories(stb PUBLIC ${CMAKE_SOURCE_DIR}/lib/stb_image/include)
+
 add_subdirectory(shader)
 add_subdirectory(buffer)
 add_subdirectory(renderer)
