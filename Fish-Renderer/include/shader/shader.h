@@ -2,7 +2,7 @@
 #define SHADER_H 
 
 #include <glad/glad.h>
-#include <asset_loader.h>
+#include <shader_loader.h>
 #include <string>
 
 

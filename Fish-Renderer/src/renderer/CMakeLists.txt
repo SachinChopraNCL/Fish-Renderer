@@ -5,7 +5,7 @@ find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 
 
-target_link_libraries(renderer PUBLIC shader buffer glfw glad glm::glm)
+target_link_libraries(renderer PUBLIC asset shader buffer glfw glad glm::glm)
 
 target_include_directories(renderer    
                            PUBLIC 

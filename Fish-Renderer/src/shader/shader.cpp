@@ -1,4 +1,5 @@
 #include <shader.h>
+#include <asset_loader.h>
 #include <config.h>
 
 using namespace fish; 
@@ -22,14 +23,14 @@ shader::~shader() {
 
 void shader::set_vertex_shader(const std::string& vertex_shader_file) {
 	if (vertex_shader_file == _cached_vertex_string) return;
-	_vertex_shader_code = asset_loader::load_asset_from_path(vertex_shader_file, load_type::SHADER);
+	_vertex_shader_code = shader_loader::load_shader_from_path(vertex_shader_file);
 	_cached_vertex_string = vertex_shader_file; 
     
 }
 
 void shader::set_fragment_shader(const std::string& fragment_shader_file) {
 	if (fragment_shader_file == _cached_vertex_string) return;
-	_fragment_shader_code = asset_loader::load_asset_from_path(fragment_shader_file, load_type::SHADER);
+	_fragment_shader_code = shader_loader::load_shader_from_path(fragment_shader_file);
 	_cached_fragment_string = fragment_shader_file;
 }
 
