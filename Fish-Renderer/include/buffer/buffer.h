@@ -2,9 +2,10 @@
 #define VERTEX_BUFFER_H
 
 #include <vector>
-#include <vertex_array.h>
-#include <glad/glad.h>
 #include <memory>
+#include <glad/glad.h>
+#include <vertex_array.h>
+
 namespace fish {
 	template <typename t>
 	class buffer {

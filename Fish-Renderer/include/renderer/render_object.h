@@ -13,7 +13,7 @@
 namespace fish {
 	class render_object {
 	public: 
-		render_object(std::shared_ptr<vertex_array>& vertex_array, std::shared_ptr<shader>& shader, const std::string& model_name = "");
+		render_object(std::shared_ptr<vertex_array>& vertex_array, std::shared_ptr<shader>& shader, const std::string& texture_name, const std::string& model_name = "");
 		void set_vertex_array(std::shared_ptr<vertex_array>& vertex_array);
 		void set_shader(std::shared_ptr<shader>& new_shader);
 		template <typename t>
@@ -37,6 +37,10 @@ namespace fish {
 				shader->use();
 			}
 		}
+		inline void use_textures() {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, _object_texture);
+		}
 
 	private: 
 		std::weak_ptr<vertex_array> _bound_vertex_array; 
@@ -53,6 +57,8 @@ namespace fish {
 		unsigned int _number_of_verticies = 0; 
 		unsigned int _number_of_indices = 0;
 		
+		GLuint _object_texture; 
+
 		std::string _model_name;
 		static const std::string _local_model_path; 
 	};

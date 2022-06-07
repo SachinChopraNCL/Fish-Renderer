@@ -7,9 +7,11 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <memory>
 
 namespace fish {
-	typedef std::map<std::string, std::string> asset_map;
+	template <class n> 
+	using asset_map = std::map<std::string, n>;
 	class asset_loader {
 	public:
 		static std::string _local_path;

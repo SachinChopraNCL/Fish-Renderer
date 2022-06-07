@@ -20,6 +20,8 @@ namespace fish {
 					return 4 * sizeof(float);
 				case(data_type::NORMAL):
 					return 3 * sizeof(float);
+				case(data_type::TEXTURE):
+					return 2 * sizeof(float);
 				default: 
 					std::cout << "Invalid data type" << std::endl;
 					break; 

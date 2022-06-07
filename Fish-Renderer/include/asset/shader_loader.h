@@ -6,18 +6,11 @@
 namespace fish {
 	class shader_loader : public asset_loader {
 	public: 
-		static const std::string load_shader_from_path(const std::string& file_name);
+		static const std::string& load_shader_from_path(const std::string& file_name);
 	private: 
-		static asset_map _shader_map; 
+		static asset_map<std::string> _shader_map;
 	};
 }
-
-
-
-
-
-
-
 
 #endif
 

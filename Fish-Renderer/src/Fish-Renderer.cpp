@@ -22,13 +22,18 @@ int main()
 	};
 	
 	std::vector<float> col = {
-	0.0f, 0.5f, 0.5f, 1.0f,
-	0.0f, 1.0f, 0.5f, 1.0f, 
+	1.0f, 0.0f, 0.0f, 1.0f,
 	0.0f, 1.0f, 0.0f, 1.0f,
-	0.0f, 1.0f, 0.0f, 1.0f,
-	0.0f, 1.0f, 0.0f, 1.0f,
-	0.0f, 1.0f, 0.0f, 1.0f
+	0.0f, 0.0f, 1.0f, 1.0f,
+	1.0f, 1.0f, 0.0f,1.0f,
 	
+	};
+
+	std::vector<float> tex_coords = {
+	1.0f, 1.0f,
+	1.0f, 0.0f,
+	0.0f, 0.0f,
+	0.0f, 1.0f
 	};
 
 	std::vector<int> indicies = {  // note that we start from 0!
@@ -36,8 +41,11 @@ int main()
 	1, 2, 3    // second triangle
 	};
 
+
+
 	renderer r = renderer("default_config.txt");
-	r.add_object(vert, col, indicies);
+	r.add_object(vert, col, indicies, tex_coords, "brick_texture.jpg");
+
 	r.draw();
 
 	return 0;
