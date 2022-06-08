@@ -20,6 +20,7 @@ target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/lib/glad/include)
 add_library(stb ${CMAKE_SOURCE_DIR}/lib/stb_image/src/stb_image.cpp)
 target_include_directories(stb PUBLIC ${CMAKE_SOURCE_DIR}/lib/stb_image/include)
 
+add_subdirectory("render-component")
 add_subdirectory(asset)
 add_subdirectory(shader)
 add_subdirectory(buffer)

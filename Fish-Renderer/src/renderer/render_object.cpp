@@ -7,7 +7,7 @@ render_object::render_object(std::shared_ptr<vertex_array>& vertex_array, std::s
 	if (!vertex_array.get()) {
 		return;
 	}
-	_object_texture = texture_loader::load_texture_from_path(texture_name);
+	_object_texture.push_back(texture_loader::load_texture_from_path(texture_name));
 }
 
 

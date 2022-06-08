@@ -5,6 +5,7 @@
 #include <data_type.h>
 #include <buffer.h> 
 #include <shader.h>
+#include <transformable.h>
 
 #include <memory>
 #include <map>
@@ -23,23 +24,36 @@ namespace fish {
 			_draw_target = new_target;
 		}
 		inline void bind_vertex_array() {
-			if (auto vertex_array = _bound_vertex_array.lock()) {
-				vertex_array->bind();
+			auto vertex_array = _bound_vertex_array.lock();
+			if (!vertex_array) {
+				std::cout << "Vertex array is no longer valid!"; 
+				return;
 			}
+			vertex_array->bind();
 		}
 		inline void unbind_vertex_array() {
-			if (auto vertex_array = _bound_vertex_array.lock()) {
-				vertex_array->unbind();
+			auto vertex_array = _bound_vertex_array.lock();
+			if (!vertex_array) {
+				std::cout << "Vertex array is no longer valid!";
+				return;
 			}
+			vertex_array->unbind();
 		}
 		inline void use_shader() {
-			if (auto shader = _bound_shader.lock()) {
-				shader->use();
+			auto shader = _bound_shader.lock();
+			if (!shader) {
+				std::cout << "Shader is no longer valid!";
+				return;
 			}
+			shader->use();
 		}
 		inline void use_textures() {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, _object_texture);
+			int i = 0; 
+			for (GLuint& _texture : _object_texture) {
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, _texture);
+				i++;
+			}
 		}
 
 	private: 
@@ -57,7 +71,7 @@ namespace fish {
 		unsigned int _number_of_verticies = 0; 
 		unsigned int _number_of_indices = 0;
 		
-		GLuint _object_texture; 
+		std::vector<GLuint> _object_texture; 
 
 		std::string _model_name;
 		static const std::string _local_model_path; 

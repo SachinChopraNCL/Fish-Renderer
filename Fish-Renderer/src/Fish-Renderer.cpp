@@ -2,7 +2,6 @@
 #include <Fish-Renderer.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <glm/vec4.hpp>
 #include <shader/shader.h>
 #include <buffer/vertex_array.h>
 #include <buffer/buffer.h>

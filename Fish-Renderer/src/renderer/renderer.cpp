@@ -74,7 +74,6 @@ void renderer::add_object(std::vector<float>& verticies, std::vector<float>& col
 }
 
 void renderer::draw() {
-	_shaders[0].get()->set_uniform<int>("input_texture", 0);
 	while (!glfwWindowShouldClose(_window.get())) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
