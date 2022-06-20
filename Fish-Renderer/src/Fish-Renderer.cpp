@@ -40,10 +40,8 @@ int main()
 	1, 2, 3    // second triangle
 	};
 
-
-
 	renderer r = renderer("default_config.txt");
-	r.add_object(false, vert, col, indicies, tex_coords, "brick_texture.jpg");
+	r.add_object<render_object>(false, vert, col, indicies, tex_coords, "brick_texture.jpg");
 
 	r.draw();
 

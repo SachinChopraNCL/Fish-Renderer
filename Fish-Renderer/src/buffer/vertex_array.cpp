@@ -15,16 +15,16 @@ void vertex_array::unbind() {
 	glBindVertexArray(0);
 }
 
-void vertex_array::add_layout(data_type layout_type, vertex_attribute_layout data_layout) {
+void vertex_array::add_layout(vertex_attribute_layout data_layout) {
 	if (location_used(data_layout)) {
 		return; 
 	}
-	if (std::find(_data_layouts.begin(), _data_layouts.end(), layout_type) != _data_layouts.end()) {
+	if (std::find(_data_layouts.begin(), _data_layouts.end(), data_layout._data_type) != _data_layouts.end()) {
 		std::cout << "Layout type is already in use!";
 		return;
 	}
 
-	_data_layouts.push_back(layout_type);
+	_data_layouts.push_back(data_layout._data_type);
 	bind();
 	glEnableVertexAttribArray(data_layout._location);
 	glVertexAttribFormat(data_layout._location, data_layout._size, data_layout._type, data_layout._normalised, data_layout._offset);

@@ -1,7 +1,5 @@
 #include <renderer.h>
 
-#include "render_object.cpp"
-
 using namespace fish; 
 
 const std::string _local_config_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\res\\config\\";
@@ -47,30 +45,6 @@ void renderer::initialise() {
 	}
 	glViewport(0, 0, _width, _height);
 	_shaders.push_back(std::make_shared<shader>());
-	load_vertex_arrays();
-}
-
-void renderer::load_vertex_arrays() {
-	vertex_attribute_layout vertex_layout = vertex_attribute_layout(0, 3, 0, GL_FLOAT, false);
-	vertex_attribute_layout colour_layout = vertex_attribute_layout(1, 4, 0, GL_FLOAT, false);
-	vertex_attribute_layout texture_layout = vertex_attribute_layout(2, 2, 0, GL_FLOAT, false);
-
-
-	std::shared_ptr<vertex_array> default_vertex_array = std::make_shared<vertex_array>();
-	default_vertex_array->add_layout(data_type::POSITION, vertex_layout);
-	default_vertex_array->add_layout(data_type::COLOUR, colour_layout);
-	default_vertex_array->add_layout(data_type::TEXTURE, texture_layout);
-
-	_vertex_arrays.push_back(default_vertex_array);
-}
-
-void renderer::add_object(bool is_static_object, std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name) {
-	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0], _shaders[0], texture_name, is_static_object);
-	new_object->add_vertex_buffer<float>(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
-	new_object->add_vertex_buffer<float>(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
-	new_object->add_vertex_buffer<float>(data_type::TEXTURE, 0, GL_ARRAY_BUFFER, texture_coordinates, GL_STATIC_DRAW);
-	new_object->add_vertex_buffer<int>(data_type::INDEX, 0, GL_ELEMENT_ARRAY_BUFFER, indicies, GL_STATIC_DRAW);
-	_render_objects.push_back(new_object);
 }
 
 void renderer::draw() {
