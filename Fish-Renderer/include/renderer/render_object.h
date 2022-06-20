@@ -14,7 +14,7 @@
 namespace fish {
 	class render_object {
 	public: 
-		render_object(std::shared_ptr<vertex_array>& vertex_array, std::shared_ptr<shader>& shader, const std::string& texture_name, const std::string& model_name = "");
+		render_object(std::shared_ptr<vertex_array>& vertex_array, std::shared_ptr<shader>& shader, const std::string& texture_name, bool is_static_object, const std::string& model_name = "");
 		void set_vertex_array(std::shared_ptr<vertex_array>& vertex_array);
 		void set_shader(std::shared_ptr<shader>& new_shader);
 		template <typename t>
@@ -22,6 +22,9 @@ namespace fish {
 		void draw(); 
 		void change_draw_target(GLenum new_target) {
 			_draw_target = new_target;
+		}
+		inline std::weak_ptr<shader> get_shader() {
+			return _bound_shader;
 		}
 		inline void bind_vertex_array() {
 			auto vertex_array = _bound_vertex_array.lock();
@@ -47,6 +50,7 @@ namespace fish {
 			}
 			shader->use();
 		}
+
 		inline void use_textures() {
 			int i = 0; 
 			for (GLuint& _texture : _object_texture) {
@@ -55,6 +59,8 @@ namespace fish {
 				i++;
 			}
 		}
+
+		transformable _transform_component;
 
 	private: 
 		std::weak_ptr<vertex_array> _bound_vertex_array; 
@@ -75,6 +81,7 @@ namespace fish {
 
 		std::string _model_name;
 		static const std::string _local_model_path; 
+
 	};
 }
 

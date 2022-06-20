@@ -24,6 +24,8 @@ namespace fish {
 		template <typename t> 
 		void set_uniform(const std::string& uniform_name, t value); 
 
+
+
 		bool _is_shader_valid = true;
 	
 	private:

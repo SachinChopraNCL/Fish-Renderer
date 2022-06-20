@@ -32,7 +32,7 @@ namespace fish {
 		renderer(renderer& copy) = delete; 
 		renderer& operator= (renderer const& copy) = delete; 
 		void draw(); 
-		void add_object(std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name);
+		void add_object(bool is_static_object, std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name);
 	private: 
 		void load_config(const std::string& config_file_name);
 		void initialise();

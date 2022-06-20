@@ -64,8 +64,8 @@ void renderer::load_vertex_arrays() {
 	_vertex_arrays.push_back(default_vertex_array);
 }
 
-void renderer::add_object(std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name) {
-	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0], _shaders[0], texture_name);
+void renderer::add_object(bool is_static_object, std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name) {
+	std::shared_ptr<render_object> new_object = std::make_shared<render_object>(_vertex_arrays[0], _shaders[0], texture_name, is_static_object);
 	new_object->add_vertex_buffer<float>(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
 	new_object->add_vertex_buffer<float>(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
 	new_object->add_vertex_buffer<float>(data_type::TEXTURE, 0, GL_ARRAY_BUFFER, texture_coordinates, GL_STATIC_DRAW);
@@ -78,11 +78,15 @@ void renderer::draw() {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		for (auto& render_object : _render_objects) {
-			render_object.get()->use_textures();
-			render_object.get()->use_shader();
-			render_object.get()->bind_vertex_array();
-			render_object.get()->draw();
-			render_object.get()->unbind_vertex_array();
+			auto render_object_pointer = render_object.get();
+			render_object_pointer->_transform_component.translate(glm::vec3(0.001f, 0, 0));
+			render_object_pointer->use_textures();
+			render_object_pointer->use_shader();
+			const std::string& mm = "model_matrix";
+			render_object_pointer->get_shader().lock()->set_uniform<glm::mat4>(mm, render_object.get()->_transform_component.get_model_matrix());
+			render_object_pointer->bind_vertex_array();
+			render_object_pointer->draw();
+			render_object_pointer->unbind_vertex_array();
 		}
 		glfwSwapBuffers(_window.get());
 		glfwPollEvents();

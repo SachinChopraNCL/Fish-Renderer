@@ -1,6 +1,6 @@
 #include <shader.h>
 #include <asset_loader.h>
-#include <config.h>
+#include <glm/glm.hpp>
 
 using namespace fish; 
 
@@ -111,4 +111,13 @@ void shader::set_uniform<bool>(const std::string& uniform, bool value) {
 	GLint location = glGetUniformLocation(_id, uniform.c_str());
 	glUniform1i(location, (int)value);
 }
+
+template<>
+void shader::set_uniform<glm::mat4>(const std::string& uniform, glm::mat4 value) {
+	GLint location = glGetUniformLocation(_id, uniform.c_str());
+	glUniformMatrix4fv(location,1, GL_FALSE, &value[0][0]);
+}
+
+
+
 

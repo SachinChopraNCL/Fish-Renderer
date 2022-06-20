@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace fish; 
 
-render_object::render_object(std::shared_ptr<vertex_array>& vertex_array, std::shared_ptr<shader>& shader, const std::string& texture_name, const std::string& model_name) : _bound_vertex_array(vertex_array), _bound_shader(shader),  _model_name(model_name) {
+render_object::render_object(std::shared_ptr<vertex_array>& vertex_array, std::shared_ptr<shader>& shader, const std::string& texture_name, bool is_static_object, const std::string& model_name) : _bound_vertex_array(vertex_array), _bound_shader(shader), _transform_component(is_static_object), _model_name(model_name) {
 	if (!vertex_array.get()) {
 		return;
 	}

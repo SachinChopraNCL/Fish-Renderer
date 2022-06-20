@@ -43,7 +43,7 @@ int main()
 
 
 	renderer r = renderer("default_config.txt");
-	r.add_object(vert, col, indicies, tex_coords, "brick_texture.jpg");
+	r.add_object(false, vert, col, indicies, tex_coords, "brick_texture.jpg");
 
 	r.draw();
 
