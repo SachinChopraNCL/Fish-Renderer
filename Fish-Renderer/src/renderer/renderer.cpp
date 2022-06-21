@@ -44,7 +44,6 @@ void renderer::initialise() {
 		return;
 	}
 	glViewport(0, 0, _width, _height);
-	_shaders.push_back(std::make_shared<shader>());
 }
 
 void renderer::draw() {
@@ -53,14 +52,9 @@ void renderer::draw() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		for (auto& render_object : _render_objects) {
 			auto render_object_pointer = render_object.get();
-			render_object_pointer->_transform_component.translate(glm::vec3(0.001f, 0, 0));
-			render_object_pointer->use_textures();
-			render_object_pointer->use_shader();
-			const std::string& mm = "model_matrix";
-			render_object_pointer->get_shader().lock()->set_uniform<glm::mat4>(mm, render_object.get()->_transform_component.get_model_matrix());
-			render_object_pointer->bind_vertex_array();
+			render_object_pointer->setup();
+			render_object_pointer->update();
 			render_object_pointer->draw();
-			render_object_pointer->unbind_vertex_array();
 		}
 		glfwSwapBuffers(_window.get());
 		glfwPollEvents();

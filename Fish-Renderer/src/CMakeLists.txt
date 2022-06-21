@@ -5,6 +5,7 @@
 # Add source to this project's executable.
 add_executable (Fish-Renderer Fish-Renderer.cpp "asset/asset_loader.cpp")
 if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set(CMAKE_CXX_STANDARD 20)
   set_property(TARGET Fish-Renderer PROPERTY CXX_STANDARD 20)
 endif()
 

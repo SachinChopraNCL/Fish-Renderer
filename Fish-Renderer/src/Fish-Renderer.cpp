@@ -41,9 +41,15 @@ int main()
 	};
 
 	renderer r = renderer("default_config.txt");
-	r.add_object<render_object>(false, vert, col, indicies, tex_coords, "brick_texture.jpg");
+	auto obj = r.add_object<render_object>(false, vert, col, indicies, tex_coords, "brick_texture.jpg");
+	obj->_transform_component.translate(glm::vec3(0.5, 0, 0));
+
+	auto obj2 = r.add_object<render_object>(false, vert, col, indicies, tex_coords, "brick_texture.jpg");
+	obj2->_transform_component.translate(glm::vec3(-0.5, 0.5, 0));
 
 	r.draw();
+
+
 
 	return 0;
 }

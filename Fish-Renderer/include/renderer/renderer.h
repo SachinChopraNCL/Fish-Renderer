@@ -34,28 +34,31 @@ namespace fish {
 		renderer& operator= (renderer const& copy) = delete; 
 		void draw(); 
 		template <class t>
-		inline void add_object(bool is_static_object, std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name) {
-			std::shared_ptr<render_object> new_object = std::make_shared<t>(_shaders[0], texture_name, is_static_object);
+		inline std::shared_ptr<render_object> add_object(bool is_static_object, std::vector<float>& verticies, std::vector<float>& colours, std::vector<int>& indicies, std::vector<float>& texture_coordinates, const std::string& texture_name) {
+			std::shared_ptr<render_object> new_object = std::make_shared<t>(texture_name, is_static_object);
+			// resolve shader
+			auto shader_target = new_object->get_shader_target(); 
+			std::string& shader_name = shader_target._name;
+			if (_shader_map.find(shader_name) == _shader_map.end()) {
+				std::shared_ptr<shader> new_shader = std::make_shared<shader>(shader_target._vertex_target, shader_target._fragment_target);
+				_shader_map[shader_name] = new_shader;
+			}
+			new_object->set_shader(_shader_map[shader_name]);
+			// resolve attribute layout for intended shader 
 			auto attribute_loader = new_object->get_object_layout();
-			std::string vertex_array_name = attribute_loader._name;
+			std::string& vertex_array_name = attribute_loader._name;
 			if (_vertex_array_map.find(vertex_array_name) == _vertex_array_map.end()) {
 				std::shared_ptr<vertex_array> new_vertex_array = std::make_shared<vertex_array>();
 				for (vertex_attribute_layout& layout : attribute_loader._layouts) {
 					new_vertex_array->add_layout(layout);
 				}
-				_vertex_array_map.insert({ vertex_array_name, new_vertex_array });
+				_vertex_array_map[vertex_array_name] = new_vertex_array;
 			}
 			new_object->set_vertex_array(_vertex_array_map[vertex_array_name]);
-			
-			
-			new_object->add_vertex_buffer<float>(data_type::POSITION, 0, GL_ARRAY_BUFFER, verticies, GL_STATIC_DRAW);
-			new_object->add_vertex_buffer<float>(data_type::COLOUR, 0, GL_ARRAY_BUFFER, colours, GL_STATIC_DRAW);
-			new_object->add_vertex_buffer<float>(data_type::TEXTURE, 0, GL_ARRAY_BUFFER, texture_coordinates, GL_STATIC_DRAW);
-			if (indicies.size() > 0) {
-				new_object->add_vertex_buffer<int>(data_type::INDEX, 0, GL_ELEMENT_ARRAY_BUFFER, indicies, GL_STATIC_DRAW);
-			}
 			_render_objects.push_back(new_object);
+			return new_object;
 		}
+	private: 
 		void load_config(const std::string& config_file_name);
 		void initialise();
 	
@@ -63,8 +66,8 @@ namespace fish {
 		std::string _window_title = "default";
 
 		std::map<std::string, std::shared_ptr<vertex_array>> _vertex_array_map = {};
+		std::map<std::string, std::shared_ptr<shader>> _shader_map = {};
 		std::vector<std::shared_ptr<render_object>> _render_objects = {};
-		std::vector<std::shared_ptr<shader>> _shaders = {};
 
 		std::string _scene_name = "";
 		
