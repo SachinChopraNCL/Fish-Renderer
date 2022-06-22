@@ -26,6 +26,7 @@ add_subdirectory(asset)
 add_subdirectory(shader)
 add_subdirectory(buffer)
 add_subdirectory(renderer)
+add_subdirectory(camera)
 
 target_link_libraries(Fish-Renderer PUBLIC renderer)
 

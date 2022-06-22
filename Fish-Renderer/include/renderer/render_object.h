@@ -38,7 +38,7 @@ namespace fish {
 		void set_vertex_array(std::shared_ptr<vertex_array>& vertex_array);
 		void set_shader(std::shared_ptr<shader>& new_shader);
 		virtual void setup();
-		virtual void update();
+		virtual void update(const glm::mat4& projection_matrix, const glm::mat4& view_matrix);
 		virtual void draw();
 		template <typename t>
 		inline void add_vertex_buffer(data_type type, GLintptr offset, GLenum binding_point, std::vector<t>& buffer_data, GLenum data_intent) {
@@ -130,10 +130,10 @@ namespace fish {
 		std::weak_ptr<shader> _bound_shader;
 
 		std::vector<float> _vertices = {
-			0.5f,  0.5f, 0.0f,  
-			0.5f, -0.5f, 0.0f,  
-			-0.5f, -0.5f, 0.0f,  
-			-0.5f,  0.5f, 0.0f  
+			 0.5f,  0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			-0.5f, -0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f,
 		};
 
 		std::vector<float> _colours = {
@@ -151,7 +151,7 @@ namespace fish {
 		};
 
 		std::vector<int> _indicies = {
-			0, 1, 3,  
+			0, 1, 3,
 			1, 2, 3
 		};
 

@@ -32,7 +32,7 @@ void renderer::initialise() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, _major_version);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, _minor_version);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	_window = glfw_window_pointer(glfwCreateWindow(_width, _height, _window_title.c_str(), NULL, NULL));
+	_window = glfw_window_pointer(glfwCreateWindow(_width, _height, _window_title.c_str(), NULL, NULL), destroy_glfw_window());
 	if (!_window) {
 		std::cout << "Failed to create Window!" << std::endl;
 		glfwTerminate();
@@ -50,10 +50,14 @@ void renderer::draw() {
 	while (!glfwWindowShouldClose(_window.get())) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		_renderer_camera.update();
+		int key = _input_handler.get_key_pressed();
+		if (key != 0) std::cout << key << std::endl;
+
 		for (auto& render_object : _render_objects) {
 			auto render_object_pointer = render_object.get();
 			render_object_pointer->setup();
-			render_object_pointer->update();
+			render_object_pointer->update(_projection_matrix, _renderer_camera.get_view_matrix());
 			render_object_pointer->draw();
 		}
 		glfwSwapBuffers(_window.get());
