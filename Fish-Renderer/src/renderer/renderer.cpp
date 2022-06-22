@@ -51,8 +51,7 @@ void renderer::draw() {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		_renderer_camera.update();
-		int key = _input_handler.get_key_pressed();
-		if (key != 0) std::cout << key << std::endl;
+		_input_handler.get_key_pressed();
 
 		for (auto& render_object : _render_objects) {
 			auto render_object_pointer = render_object.get();
