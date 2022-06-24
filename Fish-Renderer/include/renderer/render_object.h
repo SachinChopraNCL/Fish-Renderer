@@ -6,6 +6,7 @@
 #include <buffer.h> 
 #include <shader.h>
 #include <transformable.h>
+#include <mesh.h>
 
 #include <vector>
 #include <memory>
@@ -32,41 +33,15 @@ namespace fish {
 		std::string _fragment_target;
 	};
 
+
 	class render_object {
 	public:
-		render_object(const std::string& texture_name, bool is_static_object, const std::string& model_name = "");
+		render_object(bool is_static_object, const std::string& model_name = "");
 		void set_vertex_array(std::shared_ptr<vertex_array>& vertex_array);
 		void set_shader(std::shared_ptr<shader>& new_shader);
 		virtual void setup();
 		virtual void update(const glm::mat4& projection_matrix, const glm::mat4& view_matrix);
 		virtual void draw();
-		template <typename t>
-		inline void add_vertex_buffer(data_type type, GLintptr offset, GLenum binding_point, std::vector<t>& buffer_data, GLenum data_intent) {
-			if (_bound_vertex_array.expired()) {
-				std::cout << "Need a Vertex_Array bound before buffering data!" << std::endl;
-				return;
-			}
-
-			if (type == data_type::INDEX) {
-				_index_buffer = buffer<t>::create_buffer(type, binding_point, buffer_data, data_intent);
-				_number_of_indices = buffer_data.size();
-				return;
-			}
-			std::shared_ptr<vertex_array> raw_vertex_array = _bound_vertex_array.lock();
-			std::vector<data_type> vertex_array_layouts = raw_vertex_array->get_data_layouts();
-
-			if (type != vertex_array_layouts[_buffer_index++]) {
-				std::cout << "Mismatch of buffered data type and the vertex array layout!" << std::endl;
-			}
-
-			if (type == data_type::POSITION) {
-				_number_of_verticies = buffer_data.size();
-			}
-
-			_buffers.push_back(buffer<t>::create_buffer(type, binding_point, buffer_data, data_intent));
-			_offsets.push_back(offset);
-			_strides.push_back(data_helpers::get_stride_from_type(type));
-		}
 
 		void change_draw_target(GLenum new_target) {
 			_draw_target = new_target;
@@ -97,15 +72,6 @@ namespace fish {
 				return;
 			}
 			shader->use();
-		}
-
-		inline void use_textures() {
-			int i = 0;
-			for (GLuint& _texture : _object_texture) {
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, _texture);
-				i++;
-			}
 		}
 
 		inline object_shader_target& get_shader_target() {
@@ -155,21 +121,11 @@ namespace fish {
 			1, 2, 3
 		};
 
-
-		std::map<data_type,std::variant<std::vector<float>, std::vector<int>>>  _object_data; 
-
-		std::vector<GLuint> _buffers;
-		std::vector<GLintptr> _offsets;
-		std::vector<GLsizei> _strides; 
+		std::vector<mesh> _meshes; 
 
 		GLenum _draw_target = GL_TRIANGLES; 
-		GLuint _index_buffer;
-
-		unsigned int _buffer_index = 0; 
-		unsigned int _number_of_verticies = 0; 
-		unsigned int _number_of_indices = 0;
+		GLuint _index_buffer;		
 		
-		std::vector<GLuint> _object_texture; 
 
 		std::string _model_name;
 		static const std::string _local_model_path; 

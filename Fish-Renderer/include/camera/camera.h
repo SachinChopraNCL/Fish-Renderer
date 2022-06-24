@@ -25,7 +25,7 @@ namespace fish {
 		glm::vec3 _camera_up = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 _world_up = glm::vec3(0.0f, 0.0f, 0.0f);
 		
-		float _camera_speed = 25.0f; 
+		float _camera_speed = 50.0f; 
 	};
 }
 

@@ -51,9 +51,10 @@ namespace fish {
 		renderer(renderer& copy) = delete; 
 		renderer& operator= (renderer const& copy) = delete; 
 		void draw(); 
+		
 		template <class t>
-		inline std::shared_ptr<render_object> add_object(bool is_static_object,  const std::string& texture_name) {
-			std::shared_ptr<render_object> new_object = std::make_shared<t>(texture_name, is_static_object);
+		inline std::shared_ptr<render_object> add_object(bool is_static_object) {
+			std::shared_ptr<render_object> new_object = std::make_shared<t>(is_static_object);
 			// resolve shader
 			auto shader_target = new_object->get_shader_target(); 
 			std::string& shader_name = shader_target._name;
@@ -72,10 +73,12 @@ namespace fish {
 				}
 				_vertex_array_map[vertex_array_name] = new_vertex_array;
 			}
+			
 			new_object->set_vertex_array(_vertex_array_map[vertex_array_name]);
 			_render_objects.push_back(new_object);
 			return new_object;
 		}
+
 	private: 
 		void load_config(const std::string& config_file_name);
 		void initialise();
@@ -90,7 +93,7 @@ namespace fish {
 		std::string _scene_name = "";
 		
 		unsigned int _width = 600, _height = 600; 
-		unsigned int _major_version = 3, _minor_version = 3;
+		unsigned int _major_version = 4, _minor_version = 3;
 
 		glm::mat4 _projection_matrix = glm::mat4(1.0f);
 		camera _renderer_camera;
