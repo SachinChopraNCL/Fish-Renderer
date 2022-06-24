@@ -43,6 +43,7 @@ void renderer::initialise() {
 		std::cout << "Failed to initialise GLAD" << std::endl;
 		return;
 	}
+	glfwSetInputMode(_window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, _width, _height);
 }
 
@@ -50,9 +51,9 @@ void renderer::draw() {
 	while (!glfwWindowShouldClose(_window.get())) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		_renderer_camera.update();
-		_input_handler.get_key_pressed();
-
+		_timer.update(); 
+		int key = _input_handler.get_key_pressed();
+		_renderer_camera.update(key, _timer.get_delta_time(), _input_handler.get_mouse_yaw(), _input_handler.get_mouse_pitch());
 		for (auto& render_object : _render_objects) {
 			auto render_object_pointer = render_object.get();
 			render_object_pointer->setup();

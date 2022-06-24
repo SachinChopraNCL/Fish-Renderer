@@ -14,8 +14,6 @@ render_object::render_object(const std::string& texture_name, bool is_static_obj
 	_object_data[data_type::TEXTURE] = _texture_coordinates;
 	_object_data[data_type::INDEX] = _indicies;
 
-	//temp
-	_transform_component.rotate(glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
 

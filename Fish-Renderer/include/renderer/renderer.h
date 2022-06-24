@@ -17,6 +17,7 @@
 #include <shader.h>
 #include <camera.h>
 #include <input_handler.h>
+#include <time_handler.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -92,9 +93,10 @@ namespace fish {
 		unsigned int _major_version = 3, _minor_version = 3;
 
 		glm::mat4 _projection_matrix = glm::mat4(1.0f);
-
 		camera _renderer_camera;
+		
 		input_handler _input_handler; 
+		time_handler _timer; 
 	};
 }
 
