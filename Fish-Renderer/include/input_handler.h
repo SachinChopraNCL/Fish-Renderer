@@ -7,6 +7,9 @@
 #include <memory>
 #include <renderer.h>
 
+
+#define MAX_PITCH 89.9
+
 namespace fish {
 	class input_handler {
 	public: 
@@ -59,8 +62,8 @@ namespace fish {
 			_mouse_yaw += x_offset;
 			_mouse_pitch += y_offset; 
 
-			if (_mouse_pitch > 89.0f) { _mouse_pitch = 89.0f; }
-			if (_mouse_pitch < -89.0f) { _mouse_pitch = -89.0f; }
+			if (_mouse_pitch > MAX_PITCH) { _mouse_pitch = MAX_PITCH; }
+			if (_mouse_pitch < -MAX_PITCH) { _mouse_pitch = -MAX_PITCH; }
 		}
 
 		std::weak_ptr<GLFWwindow> _window;
