@@ -65,12 +65,16 @@ void shader::recompile_shader() {
 
 }
 
+#define MAX_LOG_LENGTH 512
+
 void shader::check_compile(unsigned int shader) {
 	int success_flag; 
+	char error_log[MAX_LOG_LENGTH];
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success_flag);
 	if (!success_flag) {
 		_is_shader_valid = false; 
-		std::cout << "Shader compilation failed!" << std::endl;
+		glGetShaderInfoLog(shader, MAX_LOG_LENGTH, NULL, error_log);
+		std::cout << "Shader compilation failed! " << error_log <<  std::endl;
 	}
 }
 

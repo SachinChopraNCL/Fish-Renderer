@@ -9,8 +9,11 @@ render_object::render_object(bool is_static_object, const std::string& model_nam
 	
 	// temp
 	std::vector<float> normals;
-	mesh m = mesh(_vertices, normals, _texture_coordinates, _indicies, _colours, { "brick_texture.jpg" });
-	_meshes.push_back(m);
+	auto all_mesh_data = model_loader::get_model_from_path(model_name);
+	for (auto& mesh_data : all_mesh_data) {
+		mesh m = mesh(mesh_data._vertices, normals, mesh_data._texture_coordinates, mesh_data._indices, normals, { "brick_texture.jpg" });
+		_meshes.push_back(m);
+	}
 }
 
 

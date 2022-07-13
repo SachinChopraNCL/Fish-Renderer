@@ -53,8 +53,8 @@ namespace fish {
 		void draw(); 
 		
 		template <class t>
-		inline std::shared_ptr<render_object> add_object(bool is_static_object) {
-			std::shared_ptr<render_object> new_object = std::make_shared<t>(is_static_object);
+		inline std::shared_ptr<render_object> add_object(bool is_static_object, const std::string& model_name) {
+			std::shared_ptr<render_object> new_object = std::make_shared<t>(is_static_object, model_name);
 			// resolve shader
 			auto shader_target = new_object->get_shader_target(); 
 			std::string& shader_name = shader_target._name;

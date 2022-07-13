@@ -2,7 +2,7 @@
 
 using namespace fish; 
 
-const std::string _local_config_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\res\\config\\";
+const std::string _local_config_path = "..\\..\\..\\..\\..\\..\\Fish-Renderer\\Fish-Renderer\\res\\config\\";
 
 void renderer::load_config(const std::string& config_file_name) {
 	std::ifstream config_file; 
@@ -48,6 +48,8 @@ void renderer::initialise() {
 }
 
 void renderer::draw() {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	
 	while (!glfwWindowShouldClose(_window.get())) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

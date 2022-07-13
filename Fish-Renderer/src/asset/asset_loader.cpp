@@ -2,7 +2,7 @@
 
 using namespace fish; 
 
-std::string asset_loader::_local_path = "..\\..\\..\\..\\..\\..\\Fish\\Fish-Renderer\\res\\";
+std::string asset_loader::_local_path = "..\\..\\..\\..\\..\\..\\Fish-Renderer\\Fish-Renderer\\res\\";
 
 
 

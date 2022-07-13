@@ -6,6 +6,7 @@
 #include <buffer.h> 
 #include <shader.h>
 #include <transformable.h>
+#include <model_loader.h>
 #include <mesh.h>
 
 #include <vector>

@@ -8,5 +8,6 @@ in VERTEX_SHADER_OUTPUT {
 uniform sampler2D input_texture; 
 
 void main() { 
-	gl_FragColor = texture(input_texture, fragment_shader_input.output_texture_coordinate);
+	//gl_FragColor = texture(input_texture, fragment_shader_input.output_texture_coordinate);
+	gl_FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
